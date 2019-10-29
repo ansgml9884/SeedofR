@@ -1,4 +1,5 @@
 # from django.urls import path
+
 #
 # from . import views
 #
@@ -11,7 +12,8 @@
 #     path('seedofr/list', views.post_list, name='post_list'),
 # ]
 
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
@@ -21,3 +23,7 @@ urlpatterns = [
   path('seedofr/<int:pk>/edit/', views.post_edit, name='post_edit'),
   path('seedofr/<int:seq>/', views.post_detail, name='post_detail'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

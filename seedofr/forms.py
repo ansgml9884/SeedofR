@@ -1,6 +1,9 @@
 from django import forms
-from .models import Data
+from .models import Data, image
 #from .models import Data
+
+
+
 
 #이곳에 프론트에서 사용되는 폼을 정의합니다.
 class PostForm(forms.ModelForm):
@@ -12,3 +15,4 @@ class PostForm(forms.ModelForm):
     # class Meta:
     #     model = Data
     #     fields = ('title','text')
+

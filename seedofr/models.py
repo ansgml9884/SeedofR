@@ -34,12 +34,12 @@ class Data(models.Model):
 #         self.save()
 #
 #     def __str__(self):
-        return self.title
+#        return self.title
 
 class Watson(models.Model):
     classifier_id = models.CharField(max_length=128,null=True,blank=True)
     name = models.CharField(max_length=128,null=True,blank=True)
-    _class = models.CharField(max_length=128,null=True,blank=True)
+    classes = models.CharField(max_length=128,null=True,blank=True)
     score = models.FloatField()
 
     def jsonToClass(self, aux):
@@ -50,3 +50,8 @@ class Watson(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class image(models.Model):
+    name = models.CharField(max_length=30)
+    photo = models.ImageField(upload_to="")

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Data, Watson
+from .models import Data, Watson, image
 from django.http import HttpResponse
 from .forms import PostForm
 from django.utils import timezone
@@ -16,17 +16,30 @@ def watsons():
         iam_apikey='QqxdXjczZdxurw2AYAh0KZepHq05TcOI3w9qvSxLlVV5'
     )
 
-    media = os.path.join(os.getcwd(), 'media')
-    jpg_files = [file for file in glob.glob(os.path.join(media, '*.jpg'))]
-    jpg_files.sort(key=os.path.getmtime)
+    files_Path = "media/"
+    file_name_and_time = []
 
-    with open(jpg_files[-1], 'rb') as images_file:
+    for f_name in os.listdir(f"{files_Path}"):
+        written_time = os.path.getctime(f"{files_Path}{f_name}")
+        file_name_and_time.append((f"{files_Path}{f_name}", written_time))
+
+    sorted_files = sorted(file_name_and_time, key=lambda x: x[1], reverse=True)
+
+    recent_file = sorted_files[0]
+    recent_file_name = recent_file[0]
+
+    # media = os.path.join(os.getcwd(), 'media')
+    # jpg_files = [file for file in glob.glob(os.path.join(media, '*.jpg'))]
+    # jpg_files.sort(key=os.path.getmtime)
+
+    # with open(jpg_files[-1], 'rb') as images_file:
+    with open(recent_file_name, 'rb') as images_file:
         classes = visual_recognition.classify(
             images_file,
             threshold='0.6',
             classifier_ids='Chilipepper_1417755566').get_result()
 
-    return classes
+    return classes, recent_file_name
   #  return json.dumps(classes, indent=2)
 
 def index(request):
@@ -35,7 +48,7 @@ def index(request):
 # 아래에 api 입력 및 로직 구현합니다.
 def post_new(request):
     try:
-        subprocess.call('pccp -a ', shell=True) #명령어 넣기
+        subprocess.call('ls -a ', shell=True) #명령어 넣기
     except OSError:
         pass
     # visual_recognition = VisualRecognitionV3(
@@ -64,9 +77,13 @@ def post_new(request):
 
 def post_detail(request, seq):
     data = get_object_or_404(Data, seq=seq)
+    _watson = watsons()
     ibm = Watson()
-    ibm.jsonToClass(watsons())
-    return render(request, 'seedofr/post_detail.html', {'data': data,'ibm':ibm })
+    ibm.jsonToClass(_watson[0])
+    img = image()
+    img.name = _watson[1]
+
+    return render(request, 'seedofr/post_detail.html', {'data': data,'ibm':ibm, "image" : img })
 
 def post_compare(request):
     form = PostForm()

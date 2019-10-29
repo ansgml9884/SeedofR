@@ -13,7 +13,7 @@ import subprocess
 def watsons():
     visual_recognition = VisualRecognitionV3(
         '2018-03-19',
-        iam_apikey='QqxdXjczZdxurw2AYAh0KZepHq05TcOI3w9qvSxLlVV5'
+        iam_apikey=''
     )
 
     files_Path = "media/"

@@ -51,18 +51,7 @@ def post_new(request):
         subprocess.call('ls -a ', shell=True) #명령어 넣기
     except OSError:
         pass
-    # visual_recognition = VisualRecognitionV3(
-    #     '2018-03-19',
-    #     iam_apikey='QqxdXjczZdxurw2AYAh0KZepHq05TcOI3w9qvSxLlVV5'
-    # )
-    #
-    # with open('./fruitbowl.jpg', 'rb') as images_file:
-    #     classes = visual_recognition.classify(
-    #         images_file,
-    #         threshold='0.6',
-    #         classifier_ids='Chilipepper_1417755566').get_result()
-    #
-    # print(json.dumps(classes, indent=2)
+
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():

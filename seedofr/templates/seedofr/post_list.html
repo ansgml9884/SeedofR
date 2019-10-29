@@ -1,11 +1,14 @@
-<div>
-    <h1><a href="/">seedofr</a></h1>
-</div>
 
-{% for data in datas %}
-    <div>
-        <p>published: {{ data.published_date }}</p>
-        <h1><a href="">{{ data.author }}</a></h1>
-        <p>{{ data.text|linebreaksbr }}</p>
-    </div>
-{% endfor %}
+{% extends 'seedofr/index.html' %}
+{% block content %}
+    <a class = "btn" href = "{% url 'post_new' %}"  role = "button" >new picture</a>
+    {% for post in posts %}
+        <div class="post">
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaksbr }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

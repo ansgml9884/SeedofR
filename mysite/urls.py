@@ -16,7 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-urlpatterns = [
+urlpatterns =[
+    path('', include('seedofr.urls')),
     path('seedofr/', include('seedofr.urls')),
     path('admin/', admin.site.urls),
 ]
